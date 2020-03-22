@@ -1,0 +1,23 @@
+﻿using SendGrid;
+using SendGrid.Helpers.Mail;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace ApiProject.Services
+{
+    public static class SendGridAPI
+    {
+        public static async Task<bool> Execute(string UserEmail, string UserName, string plainTextContent, string htmlContent, string subject)
+        {
+            var apiKey = "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";
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress("sekkastaff@gmail.com", "Sekka Support Team");
+            var to = new EmailAddress(UserEmail, UserName);
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var response = await client.SendEmailAsync(msg);
+            return await Task.FromResult(true);
+        }
+    }
+}
