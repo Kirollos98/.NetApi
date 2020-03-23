@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Kiro Abadier\\Desktop\\ApiProject\\ApiProject\\ApiProject.csproj": {}
+    "C:\\Users\\Kiro Abadier\\Documents\\GitHub\\.NetApi\\ApiProject\\ApiProject\\ApiProject.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Kiro Abadier\\Desktop\\ApiProject\\ApiProject\\ApiProject.csproj": {
+    "C:\\Users\\Kiro Abadier\\Documents\\GitHub\\.NetApi\\ApiProject\\ApiProject\\ApiProject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Kiro Abadier\\Desktop\\ApiProject\\ApiProject\\ApiProject.csproj",
+        "projectUniqueName": "C:\\Users\\Kiro Abadier\\Documents\\GitHub\\.NetApi\\ApiProject\\ApiProject\\ApiProject.csproj",
         "projectName": "ApiProject",
-        "projectPath": "C:\\Users\\Kiro Abadier\\Desktop\\ApiProject\\ApiProject\\ApiProject.csproj",
+        "projectPath": "C:\\Users\\Kiro Abadier\\Documents\\GitHub\\.NetApi\\ApiProject\\ApiProject\\ApiProject.csproj",
         "packagesPath": "C:\\Users\\Kiro Abadier\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Kiro Abadier\\Desktop\\ApiProject\\ApiProject\\obj\\",
+        "outputPath": "C:\\Users\\Kiro Abadier\\Documents\\GitHub\\.NetApi\\ApiProject\\ApiProject\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Kiro Abadier\\AppData\\Roaming\\NuGet\\NuGet.Config",

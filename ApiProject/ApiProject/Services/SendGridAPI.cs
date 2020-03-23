@@ -11,7 +11,7 @@ namespace ApiProject.Services
     {
         public static async Task<bool> Execute(string UserEmail, string UserName, string plainTextContent, string htmlContent, string subject)
         {
-            var apiKey = "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";
+            var apiKey = "";
             var client = new SendGridClient(apiKey);
             var from = new EmailAddress("sekkastaff@gmail.com", "Sekka Support Team");
             var to = new EmailAddress(UserEmail, UserName);
