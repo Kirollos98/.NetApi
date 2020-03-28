@@ -10,6 +10,7 @@ using ApiProject.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ApiProject.Controllers
 {
@@ -149,6 +150,13 @@ namespace ApiProject.Controllers
                 return Unauthorized("This Account is locked");
             }
             return StatusCode(StatusCodes.Status204NoContent);
+        }
+
+        [HttpGet]
+        [Route("GetAllUsers")]
+        public async Task<ActionResult<IEnumerable<ApplicationUser>>> GetAllUsers()
+        {
+            return await _db.Users.ToListAsync();
         }
     }
 }
