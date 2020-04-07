@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
@@ -14,6 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 
 namespace ApiProject.Controllers
@@ -50,18 +52,25 @@ namespace ApiProject.Controllers
             }
             if (ModelState.IsValid)
             {
+                StringBuilder Errs = new StringBuilder();
+
                 if (EmailExistes(model.Email))
                 {
-                    return BadRequest("Email is used");
+                    Errs.AppendLine("Email is used");
+                    //return BadRequest("");
                 }
                 if (!isEmailValid(model.Email))
                 {
-                    return BadRequest("Email is not valid !!");
+                    Errs.AppendLine("Email is not valid !!");
+                    //return BadRequest("Email is not valid !!");
                 }
                 if (UserNameExistes(model.UserName))
                 {
-                    return BadRequest("UserName is used");
+                    Errs.AppendLine("UserName is used");
+                    //return BadRequest("UserName is used");
                 }
+                if (Errs.Length > 0) return BadRequest(Errs.ToString());
+
                 var user = new ApplicationUser
                 {
                     Email = model.Email,
@@ -69,13 +78,18 @@ namespace ApiProject.Controllers
                 };
 
                 var result = await _manager.CreateAsync(user, model.Password);
-
+                
                 if (result.Succeeded)
                 {
                     var token = await _manager.GenerateEmailConfirmationTokenAsync(user);
-                    var confirmLink = Url.Action("RegisterationConfirm", "Account", new
-                    { ID = user.Id, Token = HttpUtility.UrlEncode(token) }, Request.Scheme);
+                    //var confirmLinkAsp = Url.Action("RegisterationConfirm", "Account", new
+                    //{ ID = user.Id, Token = HttpUtility.UrlEncode(token) }, Request.Scheme);
 
+                    // to encode token for security and sending it to angular 
+                    var encodeToken = Encoding.UTF8.GetBytes(token);
+                    var newToken = WebEncoders.Base64UrlEncode(encodeToken);
+
+                    var confirmLink = $"http://localhost:4200/registerconfirm?ID={user.Id}&Token={newToken}";
                     var txt = "Please Confirm Yousr Registeration";
                     var link = $"<a href=\"" + confirmLink + "\">Confirm Email Address</a>";
                     var title = "Welcome to Sekka ! Confirm Your Email";
@@ -124,10 +138,16 @@ namespace ApiProject.Controllers
 
             if (user == null)
                 return NotFound();
-            var result = await _manager.ConfirmEmailAsync(user, HttpUtility.UrlDecode(Token));
+
+            
+            var newToken = WebEncoders.Base64UrlDecode(Token);
+            var encodeToken = Encoding.UTF8.GetString(newToken);
+
+
+            var result = await _manager.ConfirmEmailAsync(user, encodeToken);
             if (result.Succeeded)
             {
-                return Ok("Registeration Succeeded");
+                return Ok();
             }
             else
             {
