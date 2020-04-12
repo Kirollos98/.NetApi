@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -17,6 +18,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ApiProject.Controllers
 {
@@ -81,6 +83,14 @@ namespace ApiProject.Controllers
                 
                 if (result.Succeeded)
                 {
+                    if (await _roleManager.RoleExistsAsync("User"))
+                    {
+                        if (!await _manager.IsInRoleAsync(user, "User"))
+                        {
+                            await _manager.AddToRoleAsync(user, "User");
+                        }
+                    }
+
                     var token = await _manager.GenerateEmailConfirmationTokenAsync(user);
                     //var confirmLinkAsp = Url.Action("RegisterationConfirm", "Account", new
                     //{ ID = user.Id, Token = HttpUtility.UrlEncode(token) }, Request.Scheme);
@@ -155,6 +165,52 @@ namespace ApiProject.Controllers
             }
         }
 
+
+
+
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("LoginMobile")]
+        public async Task<IActionResult> LoginMobile([FromBody]LoginModel model)
+        {
+            var user = await _manager.FindByEmailAsync(model.Email);
+
+            if (!user.EmailConfirmed)
+                return Unauthorized("email is not Confirmed");
+
+            if (user != null && await _manager.CheckPasswordAsync(user, model.Password))
+            {
+                var authClaims = new[]
+                {
+                    new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                };
+
+                var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySuperSecureKey"));
+
+                var token = new JwtSecurityToken(
+                    issuer: "http://dotnetdetail.net",
+                    audience: "http://dotnetdetail.net",
+                    expires: DateTime.Now.AddHours(10),
+                    claims: authClaims,
+                    signingCredentials: new Microsoft.IdentityModel.Tokens.SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+                    );
+
+                return Ok(new
+                {
+                    token = new JwtSecurityTokenHandler().WriteToken(token),
+                    expiration = token.ValidTo
+                });
+            }
+            return Unauthorized();
+        }
+
+
+
+
+
+        
         [AllowAnonymous]
         [HttpPost]
         [Route("Login")]
@@ -183,13 +239,13 @@ namespace ApiProject.Controllers
             var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, true);
             if (result.Succeeded)
             {
-                if (await _roleManager.RoleExistsAsync("User"))
-                {
-                    if (!await _manager.IsInRoleAsync(user, "User"))
-                    {
-                        await _manager.AddToRoleAsync(user, "User");
-                    }
-                }
+                //if (await _roleManager.RoleExistsAsync("User"))
+                //{
+                //    if (!await _manager.IsInRoleAsync(user, "User"))
+                //    {
+                //        await _manager.AddToRoleAsync(user, "User");
+                //    }
+                //}
 
                 var roleName = await GetRoleNameByUserId(user.Id);
 
