@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using ApiProject.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -16,7 +17,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-
+using Microsoft.IdentityModel.Tokens;
 
 namespace ApiProject
 {
@@ -78,6 +79,18 @@ namespace ApiProject
                 // options.AccessDeniedPath = "/Account/AccessDenied";
                 // options.SlidingExpiration = true;
                 options.Cookie.IsEssential = true;
+            }).AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidIssuer = Configuration["Tokens:Issuer"],
+                    ValidAudience = Configuration["Tokens:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"])),
+                    RequireExpirationTime = false,
+                    ValidateLifetime = true,
+                };
             });
 
 

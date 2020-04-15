@@ -169,11 +169,56 @@ namespace ApiProject.Controllers
 
 
 
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("LoginMobileAgain")]
+        //POST : /api/ApplicationUser/Login
+        public async Task<IActionResult> LoginMobileAgain(LoginModel model)
+        {
+            await CreateRoles();
+            await CreateAdmin();
+
+            var user = await _manager.FindByEmailAsync(model.Email);
+
+            if (!user.EmailConfirmed)
+                return Unauthorized("email is not Confirmed");
+
+           // var user = await _manager.FindByEmailAsync(model.Email);
+            if (user != null && await _manager.CheckPasswordAsync(user, model.Password))
+            {
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserID",user.Id.ToString())
+                    }),
+                    Expires = DateTime.UtcNow.AddDays(1),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySuperSecureKey")), SecurityAlgorithms.HmacSha256Signature)
+                };
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var securityToken = tokenHandler.CreateToken(tokenDescriptor);
+                var token = tokenHandler.WriteToken(securityToken);
+                return Ok(new { token });
+            }
+            else
+                return BadRequest(new { message = "Username or password is incorrect." });
+        }
+
+
+
+
+
+
+
         [AllowAnonymous]
         [HttpPost]
         [Route("LoginMobile")]
         public async Task<IActionResult> LoginMobile([FromBody]LoginModel model)
         {
+            await CreateRoles();
+            await CreateAdmin();
+
             var user = await _manager.FindByEmailAsync(model.Email);
 
             if (!user.EmailConfirmed)
@@ -343,7 +388,7 @@ namespace ApiProject.Controllers
                 var authProperties = new AuthenticationProperties
                 {
                     AllowRefresh = true,
-                    IsPersistent = remember,
+                    IsPersistent = true,
                     ExpiresUtc = DateTime.UtcNow.AddDays(10)
                 };
 
@@ -359,7 +404,7 @@ namespace ApiProject.Controllers
                 var authProperties = new AuthenticationProperties
                 {
                     AllowRefresh = true,
-                    IsPersistent = remember,
+                    IsPersistent = false,
                     ExpiresUtc = DateTime.UtcNow.AddMinutes(30)
                 };
 
