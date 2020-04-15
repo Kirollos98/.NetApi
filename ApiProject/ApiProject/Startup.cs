@@ -61,24 +61,25 @@ namespace ApiProject
 
             services.AddAuthentication(options =>
             {
-                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                //options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                //options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                //options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 
-                //options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                //options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                //options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             })
             .AddCookie(options => {
 
-                options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-                // options.LoginPath = "/Account/Login";
-                options.LogoutPath = "/Account/Logout";
-                options.Cookie.SameSite = SameSiteMode.Lax;
-                // options.AccessDeniedPath = "/Account/AccessDenied";
-                // options.SlidingExpiration = true;
-                options.Cookie.IsEssential = true;
+                options.SlidingExpiration = true;
+                //options.cookie.httponly = true;
+                //options.expiretimespan = timespan.fromminutes(30);
+                //options.loginpath = "/account/login";
+                //options.logoutpath = "/account/logout";
+                //options.cookie.samesite = samesitemode.lax;
+                //options.accessdeniedpath = "/account/accessdenied";
+                //options.slidingexpiration = true;
+                //options.cookie.isessential = true;
             }).AddJwtBearer(options =>
             {
                 options.RequireHttpsMetadata = false;
