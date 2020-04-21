@@ -18,6 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Net.Http.Headers;
 
 namespace ApiProject
 {
@@ -37,7 +38,7 @@ namespace ApiProject
             services.Configure<CookiePolicyOptions>(options =>
                 {
                     options.CheckConsentNeeded = context => true;
-                    options.MinimumSameSitePolicy = SameSiteMode.Lax;
+                    options.MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.Lax;
                 });
 
 
@@ -59,32 +60,12 @@ namespace ApiProject
             .AddDefaultTokenProviders();
 
 
-            services.AddAuthentication(options =>
+            services.AddAuthentication()
+            .AddJwtBearer(token =>
             {
-                //options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                //options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                //options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddCookie(options => {
-
-                options.SlidingExpiration = true;
-                //options.cookie.httponly = true;
-                //options.expiretimespan = timespan.fromminutes(30);
-                //options.loginpath = "/account/login";
-                //options.logoutpath = "/account/logout";
-                //options.cookie.samesite = samesitemode.lax;
-                //options.accessdeniedpath = "/account/accessdenied";
-                //options.slidingexpiration = true;
-                //options.cookie.isessential = true;
-            }).AddJwtBearer(options =>
-            {
-                options.RequireHttpsMetadata = false;
-                options.SaveToken = true;
-                options.TokenValidationParameters = new TokenValidationParameters()
+                token.RequireHttpsMetadata = false;
+                token.SaveToken = true;
+                token.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ValidIssuer = Configuration["Tokens:Issuer"],
                     ValidAudience = Configuration["Tokens:Audience"],

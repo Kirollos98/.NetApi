@@ -226,10 +226,14 @@ namespace ApiProject.Controllers
 
             if (user != null && await _manager.CheckPasswordAsync(user, model.Password))
             {
+                var roleName = await GetRoleNameByUserId(user.Id);
+                //var roleName = _manager.GetRolesAsync(user);
                 var authClaims = new[]
                 {
                     new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim(JwtRegisteredClaimNames.Typ, string.Join(",", roleName)), // user roles
+                    new Claim(JwtRegisteredClaimNames.Email, user.Email), // email
                 };
 
                 var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySuperSecureKey"));
@@ -245,7 +249,9 @@ namespace ApiProject.Controllers
                 return Ok(new
                 {
                     token = new JwtSecurityTokenHandler().WriteToken(token),
-                    expiration = token.ValidTo
+                    expiration = token.ValidTo,
+                    roles = roleName,
+                    Email =user.Email
                 });
             }
             return Unauthorized();
@@ -317,13 +323,21 @@ namespace ApiProject.Controllers
             }
             return null;
         }
-
+        [Authorize(Roles ="Admin")]
         [HttpGet]
         [Route("GetAllUsers")]
         public async Task<ActionResult<IEnumerable<ApplicationUser>>> GetAllUsers()
         {
             return await _db.Users.ToListAsync();
         }
+
+        //[HttpGet]
+        //[Route("GetAllUsers")]
+        //public  IEnumerable<ApplicationUser> GetAllUsers()
+        //{
+        //    return _db.Users.ToList();
+        //}
+
 
         private async Task CreateAdmin()
         {
