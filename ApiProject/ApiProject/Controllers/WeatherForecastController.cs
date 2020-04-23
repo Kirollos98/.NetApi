@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ApiProject.Controllers
 {
-    [Authorize]
+   
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
@@ -41,13 +41,13 @@ namespace ApiProject.Controllers
 
 
         
-        [HttpGet]
-        [Route("GetAllUsers")]
-        [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<IEnumerable<ApplicationUser>>> GetAllUsers()
-        {
-            return await _db.Users.ToListAsync();
-        }
+        //[HttpGet]
+        //[Route("GetAllUsers")]
+        //[Authorize(Roles = "Admin")]
+        //public async Task<ActionResult<IEnumerable<ApplicationUser>>> GetAllUsers()
+        //{
+        //    return await _db.Users.ToListAsync();
+        //}
 
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()

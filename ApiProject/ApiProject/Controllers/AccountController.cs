@@ -251,7 +251,8 @@ namespace ApiProject.Controllers
                     token = new JwtSecurityTokenHandler().WriteToken(token),
                     expiration = token.ValidTo,
                     roles = roleName,
-                    Email =user.Email
+                    Email =user.Email,
+                    userName = user.UserName
                 });
             }
             return Unauthorized();
@@ -280,12 +281,12 @@ namespace ApiProject.Controllers
             if (!user.EmailConfirmed)
                 return Unauthorized("email is not Confirmed");
 
-            var userName = HttpContext.User.Identity.Name;
-            var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if( id != null && userName != null)
-            {
-                return BadRequest($"User id:{id} exists");
-            }
+            //var userName = HttpContext.User.Identity.Name;
+            //var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            //if( id != null && userName != null)
+            //{
+            //    return BadRequest($"User id:{id} exists");
+            //}
 
             var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, true);
             if (result.Succeeded)
@@ -302,9 +303,19 @@ namespace ApiProject.Controllers
 
                 if (roleName != null)
                 {
-                    AddCookies(user.UserName, roleName, user.Id, model.RememberMe, user.Email);
+                    //AddCookies(user.UserName, roleName, user.Id, model.RememberMe, user.Email);
+                   var token = GenerateToken(user.UserName, roleName, user.Id, user.Email);
+
+                    return Ok(new
+                    {
+                        token = token,
+                        //expiration = token.,
+                        roles = roleName,
+                        Email = user.Email,
+                        userName = user.UserName
+                    });
                 }
-                return Ok();
+               // return ;
 
             }
             else if (result.IsLockedOut)
@@ -313,6 +324,38 @@ namespace ApiProject.Controllers
             }
             return StatusCode(StatusCodes.Status204NoContent);
         }
+
+
+
+        public string GenerateToken(string userName, string roleName, string UserId, string email)
+        {
+            var mySecret = "asdv234234^&%&^%&^hjsdfb2%%%";
+            var mySecurityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(mySecret));
+
+            var myIssuer = "http://mysite.com";
+            var myAudience = "http://myaudience.com";
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    //new Claim(ClaimTypes.NameIdentifier, userId),
+                    new Claim(ClaimTypes.Name, userName),
+                    new Claim(ClaimTypes.Email, email),
+                    new Claim(ClaimTypes.NameIdentifier, UserId),
+                    new Claim(ClaimTypes.Role, roleName),
+                }),
+                Expires = DateTime.UtcNow.AddDays(7),
+                Issuer = myIssuer,
+                Audience = myAudience,
+                SigningCredentials = new SigningCredentials(mySecurityKey, SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+        }
+
 
         private async Task<string> GetRoleNameByUserId(string userId)
         {
@@ -323,6 +366,8 @@ namespace ApiProject.Controllers
             }
             return null;
         }
+
+
         [Authorize(Roles ="Admin")]
         [HttpGet]
         [Route("GetAllUsers")]
@@ -460,16 +505,17 @@ namespace ApiProject.Controllers
 
         [Authorize]
         [HttpGet]
-        [Route("CheckUserClaims/{email}&{role}")]
-        public IActionResult CheckUserClaims(string email, string role)
+        [Route("CheckUserClaims/{username}&{role}")]
+        public IActionResult CheckUserClaims(string userName, string role)
         {
             var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+            var username = User.FindFirst(ClaimTypes.Name)?.Value;
             var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
-            if (userEmail != null && userRole != null && id != null)
+            if (username != null && userRole != null && id != null)
             {
-                if (email == userEmail && role == userRole)
+                if (userName == username && role == userRole)
                 {
                    return StatusCode(StatusCodes.Status200OK);
                 }
