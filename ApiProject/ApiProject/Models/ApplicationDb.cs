@@ -19,5 +19,8 @@ namespace ApiProject.Models
         {
             base.OnModelCreating(builder);
         }
+
+        public DbSet<TransportationTypes> TransportationTypes { get; set; }
+        public DbSet<Companies> Companies { get; set; }
     }
 }
