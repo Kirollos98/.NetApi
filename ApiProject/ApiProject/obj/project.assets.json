@@ -8987,11 +8987,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Maria Majid\\Desktop\\GPGitHub\\.NetApi\\ApiProject\\ApiProject\\ApiProject.csproj",
+      "projectUniqueName": "C:\\Users\\Maria Majid\\Desktop\\GP-Nenenee\\.NetApi\\ApiProject\\ApiProject\\ApiProject.csproj",
       "projectName": "ApiProject",
-      "projectPath": "C:\\Users\\Maria Majid\\Desktop\\GPGitHub\\.NetApi\\ApiProject\\ApiProject\\ApiProject.csproj",
+      "projectPath": "C:\\Users\\Maria Majid\\Desktop\\GP-Nenenee\\.NetApi\\ApiProject\\ApiProject\\ApiProject.csproj",
       "packagesPath": "C:\\Users\\Maria Majid\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Maria Majid\\Desktop\\GPGitHub\\.NetApi\\ApiProject\\ApiProject\\obj\\",
+      "outputPath": "C:\\Users\\Maria Majid\\Desktop\\GP-Nenenee\\.NetApi\\ApiProject\\ApiProject\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Maria Majid\\AppData\\Roaming\\NuGet\\NuGet.Config",

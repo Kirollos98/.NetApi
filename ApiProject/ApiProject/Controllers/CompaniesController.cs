@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ApiProject.Models;
-using ApiProject.Models.ViewModel;
+
+using ApiProject.Modelviews;
 
 namespace ApiProject.Controllers
 {
@@ -40,8 +41,8 @@ namespace ApiProject.Controllers
         }
 
         // GET: api/Companies/5
-        [HttpGet("{id}")]
-        [Route("Details")]
+        [HttpGet]
+        [Route("Details/{id}")]
         public async Task<ActionResult<Companies>> Details(int id)
         {
             var companies = await _context.Companies.FindAsync(id);
@@ -57,8 +58,9 @@ namespace ApiProject.Controllers
         // PUT: api/Companies/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCompanies(int id, Companies companies)
+        [HttpPut]
+        [Route("Edit/{id}")]
+        public async Task<IActionResult> Edit (int id, Companies companies)
         {
             if (id != companies.Id)
             {
@@ -90,7 +92,8 @@ namespace ApiProject.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Companies>> PostCompanies(Companies companies)
+        [Route("AddCompany")]
+        public async Task<ActionResult<Companies>> AddCompany(Companies companies)
         {
             _context.Companies.Add(companies);
             await _context.SaveChangesAsync();
@@ -99,7 +102,8 @@ namespace ApiProject.Controllers
         }
 
         // DELETE: api/Companies/5
-        [HttpDelete("{id}")]
+        [HttpDelete]
+        [Route("Delete/{id}")]
         public async Task<ActionResult<Companies>> DeleteCompanies(int id)
         {
             var companies = await _context.Companies.FindAsync(id);
