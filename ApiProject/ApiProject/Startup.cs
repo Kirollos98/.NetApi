@@ -76,7 +76,15 @@ namespace ApiProject
             });
 
 
-            services.AddCors();
+            //services.AddCors();
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy("CorsPolicy",
+            //        builder => builder.AllowAnyOrigin()
+            //        .AllowAnyMethod()
+            //        .AllowAnyHeader()
+            //        .AllowCredentials());
+            //});
         }
 
         //private void AddDefaultTokenProviders()
@@ -96,8 +104,11 @@ namespace ApiProject
 
             app.UseRouting();
 
+            //app.UseCors("CorsPolicy");
             app.UseCors(x => x.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod()
-            .AllowCredentials());
+            .AllowCredentials());  
+
+            //app.UseCors(x => x.anyo)
 
             app.UseAuthentication();
 

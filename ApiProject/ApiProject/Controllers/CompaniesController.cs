@@ -8,11 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using ApiProject.Models;
 
 using ApiProject.Modelviews;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ApiProject.Controllers
 {
     [Route("[controller]")]
     [ApiController]
+    [Authorize(Roles ="Admin")]
     public class CompaniesController : ControllerBase
     {
         private readonly ApplicationDb _context;

@@ -80,7 +80,7 @@ namespace ApiProject.Controllers
                 };
 
                 var result = await _manager.CreateAsync(user, model.Password);
-                
+
                 if (result.Succeeded)
                 {
                     if (await _roleManager.RoleExistsAsync("User"))
@@ -149,7 +149,7 @@ namespace ApiProject.Controllers
             if (user == null)
                 return NotFound();
 
-            
+
             var newToken = WebEncoders.Base64UrlDecode(Token);
             var encodeToken = Encoding.UTF8.GetString(newToken);
 
@@ -166,10 +166,6 @@ namespace ApiProject.Controllers
         }
 
 
-
-
-
-
         [AllowAnonymous]
         [HttpPost]
         [Route("LoginMobileAgain")]
@@ -184,7 +180,7 @@ namespace ApiProject.Controllers
             if (!user.EmailConfirmed)
                 return Unauthorized("email is not Confirmed");
 
-           // var user = await _manager.FindByEmailAsync(model.Email);
+            // var user = await _manager.FindByEmailAsync(model.Email);
             if (user != null && await _manager.CheckPasswordAsync(user, model.Password))
             {
                 var tokenDescriptor = new SecurityTokenDescriptor
@@ -204,10 +200,6 @@ namespace ApiProject.Controllers
             else
                 return BadRequest(new { message = "Username or password is incorrect." });
         }
-
-
-
-
 
 
 
@@ -251,7 +243,7 @@ namespace ApiProject.Controllers
                     token = new JwtSecurityTokenHandler().WriteToken(token),
                     expiration = token.ValidTo,
                     roles = roleName,
-                    Email =user.Email,
+                    Email = user.Email,
                     userName = user.UserName
                 });
             }
@@ -262,7 +254,7 @@ namespace ApiProject.Controllers
 
 
 
-        
+
         [AllowAnonymous]
         [HttpPost]
         [Route("Login")]
@@ -304,7 +296,7 @@ namespace ApiProject.Controllers
                 if (roleName != null)
                 {
                     //AddCookies(user.UserName, roleName, user.Id, model.RememberMe, user.Email);
-                   var token = GenerateToken(user.UserName, roleName, user.Id, user.Email);
+                    var token = GenerateToken(user.UserName, roleName, user.Id, user.Email);
 
                     return Ok(new
                     {
@@ -315,7 +307,7 @@ namespace ApiProject.Controllers
                         userName = user.UserName
                     });
                 }
-               // return ;
+                // return ;
 
             }
             else if (result.IsLockedOut)
@@ -368,7 +360,7 @@ namespace ApiProject.Controllers
         }
 
 
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("GetAllUsers")]
         public async Task<ActionResult<IEnumerable<ApplicationUser>>> GetAllUsers()
@@ -517,12 +509,74 @@ namespace ApiProject.Controllers
             {
                 if (userName == username && role == userRole)
                 {
-                   return StatusCode(StatusCodes.Status200OK);
+                    return StatusCode(StatusCodes.Status200OK);
                 }
             }
 
             return StatusCode(StatusCodes.Status203NonAuthoritative);
         }
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("ForgetPassword/{email}")]
+        public async Task<IActionResult> ForgetPassword(string email)
+        {
+            if (email == null)
+            {
+                return NotFound();
+            }
+            var user = await _manager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                return NotFound();
+            }
 
+            var token = await _manager.GeneratePasswordResetTokenAsync(user);
+            //var confirmLinkAsp = Url.Action("RegisterationConfirm", "Account", new
+            //{ ID = user.Id, Token = HttpUtility.UrlEncode(token) }, Request.Scheme);
+
+            // to encode token for security and sending it to angular 
+            var encodeToken = Encoding.UTF8.GetBytes(token);
+            var newToken = WebEncoders.Base64UrlEncode(encodeToken);
+
+            var confirmLink = $"http://localhost:4200/passwordconfirm?ID={user.Id}&Token={newToken}";
+            var txt = "Please Confirm Your Password";
+            var link = $"<a href=\"" + confirmLink + "\">Reset Password</a>";
+            var title = "Welcome to Sekka ! Reset Your Password";
+
+            if (await SendGridAPI.Execute(user.Email, user.UserName, txt, link, title))
+            {
+                return new ObjectResult(new { PassConfirmToken = newToken });
+            }
+
+            return StatusCode(StatusCodes.Status400BadRequest);
+        }
+
+
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("ResetPassword")]
+        public async Task<IActionResult> ResetPassword(ResetPasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _manager.FindByIdAsync(model.Id);
+
+                if (user == null)
+                    return NotFound();
+
+                var newToken = WebEncoders.Base64UrlDecode(model.Token);
+                var encodeToken = Encoding.UTF8.GetString(newToken);
+
+
+                var result = await _manager.ResetPasswordAsync(user, encodeToken, model.Password);
+                if (result.Succeeded)
+                {
+                    return Ok();
+                }
+            }
+            return BadRequest();
+
+        }
     }
 }
