@@ -14,7 +14,7 @@ namespace ApiProject.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    [Authorize(Roles ="Admin")]
+    //[Authorize(Roles ="Admin")]
     public class CompaniesController : ControllerBase
     {
         private readonly ApplicationDb _context;
@@ -54,15 +54,45 @@ namespace ApiProject.Controllers
                 return NotFound();
             }
 
-            return companies;
+            // return companies;
+
+            return Ok(new
+            {
+                id = companies.Id,
+                name = companies.Name,
+                type = companies.TransportationTypes.Name 
+            });
         }
 
         // PUT: api/Companies/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPut]
-        [Route("Edit/{id}")]
-        public async Task<IActionResult> Edit (int id, Companies companies)
+
+        //[Route("Edit/{id}")]
+        //public async Task<IActionResult> Edit(int id, Companies companiesvm)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+
+        //        var CompanyFromDb = _context.Companies.Where(m => m.Id == id).FirstOrDefault();
+        //        if(CompanyFromDb != null)
+        //        {
+        //            return NotFound();
+        //        }
+        //        CompanyFromDb.Name = companiesvm.Name;
+        //        CompanyFromDb.TransportationTypeId = companiesvm.TransportationTypeId;
+
+        //        await _context.SaveChangesAsync();
+
+        //        return StatusCode(StatusCodes.Status200OK);
+        //    }
+
+        //    return BadRequest();
+        //}
+
+
+        [HttpPut("Edit/{id}")]
+        public async Task<IActionResult> Edit(int id, Companies companies)
         {
             if (id != companies.Id)
             {
@@ -87,7 +117,7 @@ namespace ApiProject.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok("Edited Successfully");
         }
 
         // POST: api/Companies
@@ -100,7 +130,7 @@ namespace ApiProject.Controllers
             _context.Companies.Add(companies);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCompanies", new { id = companies.Id }, companies);
+            return Ok("Added Successfully");
         }
 
         // DELETE: api/Companies/5

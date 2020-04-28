@@ -262,7 +262,6 @@ C:\Users\Kiro Abadier\Documents\GitHub\.NetApi\ApiProject\ApiProject\obj\Debug\n
 C:\Users\Kiro Abadier\Documents\GitHub\.NetApi\ApiProject\ApiProject\obj\Debug\netcoreapp3.0\ApiProject.csproj.CopyComplete
 C:\Users\Kiro Abadier\Documents\GitHub\.NetApi\ApiProject\ApiProject\obj\Debug\netcoreapp3.0\ApiProject.dll
 C:\Users\Kiro Abadier\Documents\GitHub\.NetApi\ApiProject\ApiProject\obj\Debug\netcoreapp3.0\ApiProject.pdb
-C:\Users\Kiro Abadier\Documents\GitHub\.NetApi\ApiProject\ApiProject\obj\Debug\netcoreapp3.0\ApiProject.csprojAssemblyReference.cache
 C:\Users\Kiro Abadier\Documents\GitHub\.NetApi\ApiProject\ApiProject\bin\Debug\netcoreapp3.0\Microsoft.IdentityModel.JsonWebTokens.dll
 C:\Users\Kiro Abadier\Documents\GitHub\.NetApi\ApiProject\ApiProject\bin\Debug\netcoreapp3.0\Microsoft.IdentityModel.Logging.dll
 C:\Users\Kiro Abadier\Documents\GitHub\.NetApi\ApiProject\ApiProject\bin\Debug\netcoreapp3.0\Microsoft.IdentityModel.Tokens.dll

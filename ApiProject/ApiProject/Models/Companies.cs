@@ -11,10 +11,11 @@ namespace ApiProject.Models
     {
         public int Id { get; set; }
         public String Name { get; set; }
+
         [Display(Name = "Transportation Type")]
         public int TransportationTypeId { get; set; }
 
-        [Display(Name = "Transportation Type")]
+        //[Display(Name = "Transportation Type")]
         [ForeignKey("TransportationTypeId")]
         public virtual TransportationTypes TransportationTypes { get; set; }
     }
