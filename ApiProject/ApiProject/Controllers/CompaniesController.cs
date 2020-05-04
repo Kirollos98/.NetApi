@@ -39,6 +39,8 @@ namespace ApiProject.Controllers
         public async Task<ActionResult<IEnumerable<Companies>>> Index()
         {
             var Companies = _context.Companies.Include(m => m.TransportationTypes.Name);
+            
+            
             return await _context.Companies.ToListAsync();
         }
 
@@ -147,7 +149,7 @@ namespace ApiProject.Controllers
             _context.Companies.Remove(companies);
             await _context.SaveChangesAsync();
 
-            return companies;
+            return Ok("Deleted Successfully");
         }
 
         private bool CompaniesExists(int id)

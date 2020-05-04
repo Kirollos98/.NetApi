@@ -611,3 +611,4 @@ C:\Users\Kiro Abadier\Documents\GitHub\.NetApi\ApiProject\ApiProject\bin\Debug\n
 C:\Users\Kiro Abadier\Documents\GitHub\.NetApi\ApiProject\ApiProject\bin\Debug\netcoreapp3.0\runtimes\win-x86\native\e_sqlite3.dll
 C:\Users\Kiro Abadier\Documents\GitHub\.NetApi\ApiProject\ApiProject\bin\Debug\netcoreapp3.0\libman.json
 C:\Users\Kiro Abadier\Documents\GitHub\.NetApi\ApiProject\ApiProject\obj\Debug\netcoreapp3.0\ApiProject.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Kiro Abadier\Documents\GitHub\.NetApi\ApiProject\ApiProject\obj\Debug\netcoreapp3.0\ApiProject.csprojAssemblyReference.cache
