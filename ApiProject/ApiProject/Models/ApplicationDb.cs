@@ -22,5 +22,12 @@ namespace ApiProject.Models
 
         public DbSet<TransportationTypes> TransportationTypes { get; set; }
         public DbSet<Companies> Companies { get; set; }
+        public DbSet<TransportationCategories> TransportationCategories { get; set; }
+       
+        public DbSet<CompanyAssets> CompanyAssets { get; set; }
+        public DbSet<Cities> Cities { get; set; }
+
+        public DbSet<Trips> Trips { get; set; }
+
     }
 }

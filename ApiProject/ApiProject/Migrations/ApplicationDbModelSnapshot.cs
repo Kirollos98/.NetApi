@@ -119,6 +119,22 @@ namespace ApiProject.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("ApiProject.Models.Cities", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cities");
+                });
+
             modelBuilder.Entity("ApiProject.Models.Companies", b =>
                 {
                     b.Property<int>("Id")
@@ -139,6 +155,47 @@ namespace ApiProject.Migrations
                     b.ToTable("Companies");
                 });
 
+            modelBuilder.Entity("ApiProject.Models.CompanyAssets", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CompniesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TransportationCategoriesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompniesId");
+
+                    b.HasIndex("TransportationCategoriesId");
+
+                    b.ToTable("CompanyAssets");
+                });
+
+            modelBuilder.Entity("ApiProject.Models.TransportationCategories", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MaxSeats")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TransportationCategories");
+                });
+
             modelBuilder.Entity("ApiProject.Models.TransportationTypes", b =>
                 {
                     b.Property<int>("Id")
@@ -153,6 +210,55 @@ namespace ApiProject.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TransportationTypes");
+                });
+
+            modelBuilder.Entity("ApiProject.Models.Trips", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("ArrivalDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ArrivalTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("AvailableSeats")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CitiesFromId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CitiesToId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CompanyAssetId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DepDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DepTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TripNum")
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CitiesFromId");
+
+                    b.HasIndex("CitiesToId");
+
+                    b.HasIndex("CompanyAssetId");
+
+                    b.ToTable("Trips");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -264,6 +370,42 @@ namespace ApiProject.Migrations
                     b.HasOne("ApiProject.Models.TransportationTypes", "TransportationTypes")
                         .WithMany()
                         .HasForeignKey("TransportationTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ApiProject.Models.CompanyAssets", b =>
+                {
+                    b.HasOne("ApiProject.Models.Companies", "Companies")
+                        .WithMany()
+                        .HasForeignKey("CompniesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ApiProject.Models.TransportationCategories", "TransportationCategories")
+                        .WithMany()
+                        .HasForeignKey("TransportationCategoriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ApiProject.Models.Trips", b =>
+                {
+                    b.HasOne("ApiProject.Models.Cities", "CityFrom")
+                        .WithMany()
+                        .HasForeignKey("CitiesFromId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ApiProject.Models.Cities", "CityTo")
+                        .WithMany()
+                        .HasForeignKey("CitiesToId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ApiProject.Models.CompanyAssets", "CompanyAssets")
+                        .WithMany()
+                        .HasForeignKey("CompanyAssetId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

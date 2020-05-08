@@ -9149,19 +9149,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Kiro Abadier\\.nuget\\packages\\": {}
+    "C:\\Users\\Maria Majid\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Kiro Abadier\\Documents\\GitHub\\.NetApi\\ApiProject\\ApiProject\\ApiProject.csproj",
+      "projectUniqueName": "C:\\Users\\Maria Majid\\Desktop\\GraduationProject\\GP-Tripss\\new\\Asasiiii\\.NetApi\\ApiProject\\ApiProject\\ApiProject.csproj",
       "projectName": "ApiProject",
-      "projectPath": "C:\\Users\\Kiro Abadier\\Documents\\GitHub\\.NetApi\\ApiProject\\ApiProject\\ApiProject.csproj",
-      "packagesPath": "C:\\Users\\Kiro Abadier\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Kiro Abadier\\Documents\\GitHub\\.NetApi\\ApiProject\\ApiProject\\obj\\",
+      "projectPath": "C:\\Users\\Maria Majid\\Desktop\\GraduationProject\\GP-Tripss\\new\\Asasiiii\\.NetApi\\ApiProject\\ApiProject\\ApiProject.csproj",
+      "packagesPath": "C:\\Users\\Maria Majid\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Maria Majid\\Desktop\\GraduationProject\\GP-Tripss\\new\\Asasiiii\\.NetApi\\ApiProject\\ApiProject\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Kiro Abadier\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Maria Majid\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -9248,6 +9248,24 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[3.0.1, 3.0.1]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[3.0.1, 3.0.1]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[3.0.0, 3.0.0]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[3.0.0, 3.0.0]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -9256,7 +9274,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
       }
     }
   }
