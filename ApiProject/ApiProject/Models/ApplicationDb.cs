@@ -29,5 +29,10 @@ namespace ApiProject.Models
 
         public DbSet<Trips> Trips { get; set; }
 
+        public DbSet<ReviewReasons> ReviewReasons { get; set; } 
+        public DbSet<Bookings> Bookings { get; set; } 
+        public DbSet<Reviews> Reviews { get; set; }
+       public DbSet<Complains> Complains { get; set; }
+
     }
 }
