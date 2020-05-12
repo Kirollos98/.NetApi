@@ -18,15 +18,20 @@ namespace ApiProject.Controllers
 
         public TripsController(ApplicationDb db)
         {
-            _context = db;
-
-           
+            _context = db;           
         }
 
 
-        
+        [HttpGet]
+        [Route("ListCities")]
+        public async Task<ActionResult<IEnumerable<Cities>>> ListCities()
+        {
+            return await _context.Cities.ToListAsync();
+        }
 
-       [HttpGet]
+
+
+        [HttpPost]
         [Route("Search")]
         public async Task<ActionResult<IEnumerable<Trips>>> Search(SearchTripsViewModel model)
         {
@@ -62,11 +67,6 @@ namespace ApiProject.Controllers
 
 
 
-
-
-
-
-
         // GET: api/Trips/5
         [HttpGet]
         [Route("Details/{id}")]
@@ -81,8 +81,6 @@ namespace ApiProject.Controllers
 
             return Ok(trips);
         }
-
-
 
 
 
@@ -118,6 +116,7 @@ namespace ApiProject.Controllers
 
             return NoContent();
         }
+
 
         // POST: api/Trips
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for

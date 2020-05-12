@@ -11,7 +11,7 @@ namespace ApiProject.Models
     {
         public int Id { get; set; }
 
-        [MaxLength(1000)]
+        [MaxLength(450)]
         public string Complain { get; set; }
 
         [StringLength(450)]

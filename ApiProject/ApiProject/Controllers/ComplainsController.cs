@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ApiProject.Controllers
 {
-   
+
     [Route("[controller]")]
     [ApiController]
     public class ComplainsController : ControllerBase
@@ -44,7 +44,7 @@ namespace ApiProject.Controllers
 
             return Ok(new
             {
-                
+
                 complain = complains.Complain
             });
         }
@@ -85,7 +85,7 @@ namespace ApiProject.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
 
-        
+
         [HttpPost]
         [Route("Addcomplain")]
         public async Task<ActionResult<Complains>> Addcomplain(Complains complains)
@@ -96,21 +96,21 @@ namespace ApiProject.Controllers
             return Ok("Added Successfully");
         }
 
-       /* // DELETE: api/Complains/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Complains>> DeleteComplains(int id)
-        {
-            var complains = await _context.Complains.FindAsync(id);
-            if (complains == null)
-            {
-                return NotFound();
-            }
+        /* // DELETE: api/Complains/5
+         [HttpDelete("{id}")]
+         public async Task<ActionResult<Complains>> DeleteComplains(int id)
+         {
+             var complains = await _context.Complains.FindAsync(id);
+             if (complains == null)
+             {
+                 return NotFound();
+             }
 
-            _context.Complains.Remove(complains);
-            await _context.SaveChangesAsync();
+             _context.Complains.Remove(complains);
+             await _context.SaveChangesAsync();
 
-            return Ok("Deleted Successfully");
-        }*/
+             return Ok("Deleted Successfully");
+         }*/
 
         private bool ComplainsExists(int id)
         {

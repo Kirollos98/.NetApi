@@ -211,8 +211,8 @@ namespace ApiProject.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Complain")
-                        .HasColumnType("nvarchar(1000)")
-                        .HasMaxLength(1000);
+                        .HasColumnType("nvarchar(450)")
+                        .HasMaxLength(450);
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)")
