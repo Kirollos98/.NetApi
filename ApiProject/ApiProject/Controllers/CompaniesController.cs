@@ -53,7 +53,7 @@ namespace ApiProject.Controllers
 
             if (companies == null)
             {
-                return NotFound();
+                return Ok("Not Found");
             }
 
             // return companies;

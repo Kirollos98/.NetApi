@@ -13,5 +13,8 @@ namespace ApiProject.Modelviews
         public int? ToId { get; set; }
 
         public string? DepDate { get; set; }
+
+
+
     }
 }

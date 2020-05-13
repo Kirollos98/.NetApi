@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ApiProject.Models;
+using ApiProject.Modelviews;
 
 namespace ApiProject.Controllers
 {
@@ -15,10 +16,19 @@ namespace ApiProject.Controllers
     public class ReviewsController : ControllerBase
     {
         private readonly ApplicationDb _context;
-
+        [BindProperty]
+        public ReviewsViewsModel ReviewsVM { get; set; }
         public ReviewsController(ApplicationDb context)
         {
             _context = context;
+
+            ReviewsVM = new ReviewsViewsModel()
+            {
+                Users = _context.Users.ToList(),
+                Bookings = _context.Bookings.ToList(),
+                ReviewReasons = _context.ReviewReasons.ToList(),
+                Reviews = new Models.Reviews()
+            };
         }
 
         // GET: api/Reviews
@@ -26,6 +36,7 @@ namespace ApiProject.Controllers
         [Route("Index")]
         public async Task<ActionResult<IEnumerable<Reviews>>> Index()
         {
+            var Reviews = _context.Reviews.Include(m=> m.ApplicationUser.UserName).Include(m => m.Bookings.TripId).Include(m=>m.ReviewReasons.Name);
             return await _context.Reviews.ToListAsync();
         }
 
@@ -49,7 +60,11 @@ namespace ApiProject.Controllers
 
             return Ok(new
             {
-                // rate = reviews.reviewrate,
+                username = reviews.ApplicationUser.UserName,
+                tripId = reviews.Bookings.TripId,
+                reviewReason = reviews.ReviewReasons.Name,
+
+                rate = reviews.ReviewRate,
                 comment = reviews.Comment
             });
         }

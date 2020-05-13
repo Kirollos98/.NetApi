@@ -10,9 +10,13 @@ namespace ApiProject.Modelviews
     {
 
         public List<Trips> Trips { get; set; }
-        public IEnumerable<Cities> Cities { get; set; }
-       // public IEnumerable<Cities> CityFrom { get; set; }
+       // public Trips Trips { get; set; }
+        public IEnumerable<Cities> CitiesTO { get; set; }
+        public IEnumerable<Cities> CityFrom { get; set; }
         public IEnumerable<CompanyAssets> CompanyAssets { get; set; }
+        public IEnumerable<TransportationCategories> TransportationCategories { get; set; }
+        public IEnumerable<Companies> Companies { get; set; }
 
+            
     }
 }

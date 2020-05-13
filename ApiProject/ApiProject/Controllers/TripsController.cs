@@ -15,10 +15,21 @@ namespace ApiProject.Controllers
     public class TripsController : ControllerBase
     {
         private readonly ApplicationDb _context;
-
+        [BindProperty]
+        public TripsViewModel TripsVM { get; set; }
         public TripsController(ApplicationDb db)
         {
-            _context = db;           
+            _context = db;
+
+            TripsVM = new TripsViewModel()
+            {
+                CitiesTO = _context.Cities.ToList(),
+                CityFrom = _context.Cities.ToList(),
+                CompanyAssets = _context.CompanyAssets.ToList(),
+                TransportationCategories = _context.TransportationCategories.ToList(),
+                Companies = _context.Companies.ToList(),
+                Trips = new List<Trips>()
+            };
         }
 
 
@@ -39,9 +50,10 @@ namespace ApiProject.Controllers
             TripsViewModel Tripsvm = new TripsViewModel()
             {
                 Trips = new List<Models.Trips>()
+              
             };
             
-            Tripsvm.Trips = await _context.Trips.ToListAsync();
+            Tripsvm.Trips = await _context.Trips.Include(x => x.CityFrom).Include(m => m.CityTo).ToListAsync();
 
             if (model.FromId != null)
             {
@@ -72,14 +84,37 @@ namespace ApiProject.Controllers
         [Route("Details/{id}")]
         public async Task<ActionResult<Trips>> Details(int id)
         {
+            //TripsViewModel Tripsvm = new TripsViewModel()
+            //{
+            //    Trips = new List<Models.Trips>()
+           
+            //};
+            //Tripsvm.Trips = await _context.Trips.Include(m => m.CityFrom.Name).Include(m => m.CityTo.Name).FindAsync(id);
+
             var trips = await _context.Trips.FindAsync(id);
 
             if (trips == null)
             {
-                return NotFound();
+                //return NotFound();
+                return Ok("Not Found");
             }
 
-            return Ok(trips);
+            //return Ok(trips);
+            return Ok(new
+            {
+                tripnum = trips.TripNum,
+               cityfrom = trips.CityFrom.Name,
+               cityto = trips.CityTo.Name,
+                depDate = trips.DepDate,
+                arrivalDate = trips.ArrivalDate,
+                depTime = trips.DepTime,
+                arrivalTime = trips.ArrivalTime,
+                price = trips.Price,
+                availableSeats = trips.AvailableSeats,
+               companyCategory = trips.CompanyAssets.TransportationCategories.CategoryName,
+                companyCompany = trips.CompanyAssets.Companies.Name
+
+            }) ;
         }
 
 

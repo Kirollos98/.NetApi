@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ApiProject.Models;
 using Microsoft.AspNetCore.Authorization;
+using ApiProject.Modelviews;
 
 namespace ApiProject.Controllers
 {
@@ -17,9 +18,19 @@ namespace ApiProject.Controllers
     {
         private readonly ApplicationDb _context;
 
+
+        [BindProperty]
+        public ComplainsViewModel ComplainsVM { get; set; }
         public ComplainsController(ApplicationDb context)
         {
             _context = context;
+            ComplainsVM = new ComplainsViewModel()
+            {
+                Users = _context.Users.ToList(),
+                Bookings = _context.Bookings.ToList(),
+                Complains = new Models.Complains()
+            };
+
         }
 
         // GET: api/Complains
@@ -27,6 +38,7 @@ namespace ApiProject.Controllers
         [Route("Index")]
         public async Task<ActionResult<IEnumerable<Complains>>> Index()
         {
+            var Complains = _context.Complains.Include(m => m.ApplicationUser.UserName).Include(m => m.Bookings.TripId);
             return await _context.Complains.ToListAsync();
         }
 
@@ -44,7 +56,8 @@ namespace ApiProject.Controllers
 
             return Ok(new
             {
-
+               username = complains.ApplicationUser.UserName,
+               tripId = complains.Bookings.TripId,
                 complain = complains.Complain
             });
         }
