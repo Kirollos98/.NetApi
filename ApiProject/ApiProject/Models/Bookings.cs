@@ -29,5 +29,7 @@ namespace ApiProject.Models
         [ForeignKey("TripId")]
         public virtual Trips Trips { get; set; }
 
+        public int DemandeSeats { get; set; }
+
     }
 }

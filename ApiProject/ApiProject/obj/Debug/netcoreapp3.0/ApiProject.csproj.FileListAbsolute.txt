@@ -1094,3 +1094,4 @@ C:\Users\Maria Majid\Desktop\GraduationProject\.NetApi\ApiProject\ApiProject\obj
 C:\Users\Maria Majid\Desktop\GraduationProject\.NetApi\ApiProject\ApiProject\obj\Debug\netcoreapp3.0\ApiProject.csproj.CopyComplete
 C:\Users\Maria Majid\Desktop\GraduationProject\.NetApi\ApiProject\ApiProject\obj\Debug\netcoreapp3.0\ApiProject.dll
 C:\Users\Maria Majid\Desktop\GraduationProject\.NetApi\ApiProject\ApiProject\obj\Debug\netcoreapp3.0\ApiProject.pdb
+C:\Users\Kiro Abadier\Documents\GitHub\.NetApi\ApiProject\ApiProject\obj\Debug\netcoreapp3.0\ApiProject.csprojAssemblyReference.cache

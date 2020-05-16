@@ -62,37 +62,37 @@ namespace ApiProject.Controllers
             });
         }
 
-        /*  // PUT: api/Complains/5
+          // PUT: api/Complains/5
           // To protect from overposting attacks, please enable the specific properties you want to bind to, for
           // more details see https://aka.ms/RazorPagesCRUD.
-          [HttpPut("{id}")]
-          public async Task<IActionResult> PutComplains(int id, Complains complains)
-          {
-              if (id != complains.Id)
-              {
-                  return BadRequest();
-              }
+          //[httpput("{id}")]
+          //public async task<iactionresult> putcomplains(int id, complains complains)
+          //{
+          //    if (id != complains.id)
+          //    {
+          //        return badrequest();
+          //    }
 
-              _context.Entry(complains).State = EntityState.Modified;
+          //    _context.entry(complains).state = entitystate.modified;
 
-              try
-              {
-                  await _context.SaveChangesAsync();
-              }
-              catch (DbUpdateConcurrencyException)
-              {
-                  if (!ComplainsExists(id))
-                  {
-                      return NotFound();
-                  }
-                  else
-                  {
-                      throw;
-                  }
-              }
+          //    try
+          //    {
+          //        await _context.savechangesasync();
+          //    }
+          //    catch (dbupdateconcurrencyexception)
+          //    {
+          //        if (!complainsexists(id))
+          //        {
+          //            return notfound();
+          //        }
+          //        else
+          //        {
+          //            throw;
+          //        }
+          //    }
 
-              return NoContent();
-          }*/
+          //    return nocontent();
+          //}
 
         // POST: api/Complains
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
@@ -109,21 +109,21 @@ namespace ApiProject.Controllers
             return Ok("Added Successfully");
         }
 
-        /* // DELETE: api/Complains/5
-         [HttpDelete("{id}")]
-         public async Task<ActionResult<Complains>> DeleteComplains(int id)
-         {
-             var complains = await _context.Complains.FindAsync(id);
-             if (complains == null)
-             {
-                 return NotFound();
-             }
+        // DELETE: api/Complains/5
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Complains>> DeleteComplains(int id)
+        {
+            var complains = await _context.Complains.FindAsync(id);
+            if (complains == null)
+            {
+                return NotFound();
+            }
 
-             _context.Complains.Remove(complains);
-             await _context.SaveChangesAsync();
+            _context.Complains.Remove(complains);
+            await _context.SaveChangesAsync();
 
-             return Ok("Deleted Successfully");
-         }*/
+            return Ok("Deleted Successfully");
+        }
 
         private bool ComplainsExists(int id)
         {

@@ -301,7 +301,7 @@ namespace ApiProject.Controllers
                     return Ok(new
                     {
                         token = token,
-                        //expiration = token.,
+                        userId = user.Id,
                         roles = roleName,
                         Email = user.Email,
                         userName = user.UserName

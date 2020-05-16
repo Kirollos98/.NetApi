@@ -126,6 +126,9 @@ namespace ApiProject.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("DemandeSeats")
+                        .HasColumnType("int");
+
                     b.Property<int>("TripId")
                         .HasColumnType("int");
 
