@@ -375,6 +375,7 @@ namespace ApiProject.Controllers
         //    return _db.Users.ToList();
         //}
        // [AllowAnonymous]
+
         [HttpPost]
         [Route("CreateAdmin")]
         private async Task CreateAdmin()
