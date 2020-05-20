@@ -39,6 +39,16 @@ namespace ApiProject.Controllers
         }
 
 
+        // GET: api/Bookings
+        [HttpGet]
+        [Route("Index")]
+        public async Task<ActionResult<IEnumerable<Bookings>>> GetBookings()
+        {
+            var Bookings = _context.Bookings.Include(m => m.ApplicationUser.UserName).Include(m => m.Trips.TripNum);
+            
+            return await _context.Bookings.ToListAsync();
+        }
+
         //BookTrip 
 
         [HttpPost]
@@ -99,6 +109,17 @@ namespace ApiProject.Controllers
             
 
             });
+        }
+
+
+
+
+        [HttpGet]
+        [Route("UserBookings/{id}")]
+        public async Task<ActionResult<IEnumerable<Bookings>>> UserBookings(string id)
+        {
+            var Bookings = _context.Bookings.Where(x => x.UserId == id).Include(m => m.ApplicationUser.UserName).Include(m => m.Trips.TripNum);
+            return await _context.Bookings.ToListAsync();
         }
 
 

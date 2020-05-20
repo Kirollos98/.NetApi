@@ -109,6 +109,20 @@ namespace ApiProject.Controllers
             return Ok("Added Successfully");
         }
 
+
+
+
+
+        [HttpGet]
+        [Route("UserComplains/{id}")]
+        public async Task<ActionResult<IEnumerable<Complains>>> UserComplains(string id)
+        {
+            var Complains = _context.Complains.Where(x => x.UserId == id).Include(m => m.ApplicationUser.UserName).Include(m => m.Bookings.TripId);
+            return await _context.Complains.ToListAsync();
+        }
+
+
+
         // DELETE: api/Complains/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Complains>> DeleteComplains(int id)

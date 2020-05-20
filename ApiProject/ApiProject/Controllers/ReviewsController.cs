@@ -156,6 +156,17 @@ namespace ApiProject.Controllers
             return Ok("Edited Successfully");
         }
 
+
+        [HttpGet]
+        [Route("UserReviews/{id}")]
+        public async Task<ActionResult<IEnumerable<Reviews>>> UserReviews(string id)
+        {
+            var Reviews = _context.Reviews.Where(x => x.UserId == id).Include(m => m.ApplicationUser.UserName).Include(m => m.Bookings.TripId).Include(m => m.ReviewReasons.Name);
+            return await _context.Reviews.ToListAsync();
+        }
+
+
+
         // DELETE: api/Reviews/5
         [HttpDelete]
         [Route("Delete/{id}")]
