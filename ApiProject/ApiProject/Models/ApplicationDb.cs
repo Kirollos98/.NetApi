@@ -34,6 +34,8 @@ namespace ApiProject.Models
         public DbSet<Bookings> Bookings { get; set; }
         public DbSet<Complains> Complains { get; set; }
         public DbSet<Reviews> Reviews { get; set; }
+        public DbSet<PromoCodes> PromoCodes { get; set; }
+        public DbSet<CodeActivated> CodeActivated { get; set; }
 
     }
 }

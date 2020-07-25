@@ -4,14 +4,16 @@ using ApiProject.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ApiProject.Migrations
 {
     [DbContext(typeof(ApplicationDb))]
-    partial class ApplicationDbModelSnapshot : ModelSnapshot
+    [Migration("20200629212412_AddPromoCodeToDb")]
+    partial class AddPromoCodeToDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -159,32 +161,6 @@ namespace ApiProject.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Cities");
-                });
-
-            modelBuilder.Entity("ApiProject.Models.CodeActivated", b =>
-                {
-                    b.Property<int>("CodeActivatedId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("DateActivated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("PromoCodeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)")
-                        .HasMaxLength(450);
-
-                    b.HasKey("CodeActivatedId");
-
-                    b.HasIndex("PromoCodeId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("CodeActivated");
                 });
 
             modelBuilder.Entity("ApiProject.Models.Companies", b =>
@@ -540,19 +516,6 @@ namespace ApiProject.Migrations
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("ApiProject.Models.CodeActivated", b =>
-                {
-                    b.HasOne("ApiProject.Models.PromoCodes", "PromoCodes")
-                        .WithMany()
-                        .HasForeignKey("PromoCodeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ApiProject.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-                });
-
             modelBuilder.Entity("ApiProject.Models.Companies", b =>
                 {
                     b.HasOne("ApiProject.Models.TransportationTypes", "TransportationTypes")
@@ -592,7 +555,7 @@ namespace ApiProject.Migrations
 
             modelBuilder.Entity("ApiProject.Models.PromoCodes", b =>
                 {
-                    b.HasOne("ApiProject.Models.Companies", "Companies")
+                    b.HasOne("ApiProject.Models.CompanyAssets", "CompanyAssets")
                         .WithMany()
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)

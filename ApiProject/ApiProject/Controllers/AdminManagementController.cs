@@ -201,14 +201,10 @@ namespace ApiProject.Controllers
         [Route("BLock")]
         public async Task<ActionResult<ApplicationUser>> BLockUser(BlockUser model)
         {
-
-
             var user = await _manager.FindByNameAsync(model.UserName);
 
             if (!model.IsLocked)
             {
-
-
                 await _manager.SetLockoutEnabledAsync(user, false);
                 return Ok("Account is Locked");
             }

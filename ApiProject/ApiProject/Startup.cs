@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -74,6 +74,9 @@ namespace ApiProject
                     ValidateLifetime = true,
                 };
             });
+
+            services.AddDbContext<ApplicationDb>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("ApplicationDbContext")));
 
 
             //services.AddCors();

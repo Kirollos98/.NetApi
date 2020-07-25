@@ -1419,3 +1419,5 @@ C:\Users\Maria Majid\Desktop\GraduationProject\FF\ApiProject\ApiProject\obj\Debu
 C:\Users\Maria Majid\Desktop\GraduationProject\FF\ApiProject\ApiProject\obj\Debug\netcoreapp3.0\staticwebassets\ApiProject.StaticWebAssets.Manifest.cache
 C:\Users\Maria Majid\Desktop\GraduationProject\FF\ApiProject\ApiProject\obj\Debug\netcoreapp3.0\staticwebassets\ApiProject.StaticWebAssets.xml
 C:\Users\Maria Majid\Desktop\GraduationProject\FF\ApiProject\ApiProject\obj\Debug\netcoreapp3.0\ApiProject.genruntimeconfig.cache
+C:\Users\Maria Majid\Desktop\GraduationProject\FF\ApiProject\ApiProject\bin\Debug\netcoreapp3.0\Properties\serviceDependencies.json
+C:\Users\Maria Majid\Desktop\GraduationProject\FF\ApiProject\ApiProject\bin\Debug\netcoreapp3.0\Properties\serviceDependencies.local.json
